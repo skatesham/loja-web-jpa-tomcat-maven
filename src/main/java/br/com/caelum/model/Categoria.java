@@ -5,8 +5,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
-public class Categoria {
+@NoArgsConstructor
+public @Data class Categoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,21 +20,4 @@ public class Categoria {
 	public Categoria(String nome) {
 		this.nome = nome;
 	}
-	
-	public Categoria() { 
-		
-	}
-
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
 }

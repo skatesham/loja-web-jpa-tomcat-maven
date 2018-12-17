@@ -24,7 +24,15 @@ public class ProdutoDao {
 	private EntityManager em;
 
 	public List<Produto> getProdutos() {
-		return em.createQuery("from Produto", Produto.class).getResultList();
+		return em.createQuery("select distinct p from Produto p", Produto.class)
+				.setHint("javax.persistence.loadgraph", em.getEntityGraph("produtoComCategoria"))
+				.getResultList();
+	}
+
+	// EAGER GET
+	public List<Produto> getProdutosComCategorias() {
+		return em.createQuery("select distinct p from Produto p join fetch p.categorias", Produto.class)
+				.getResultList();
 	}
 
 	public Produto getProduto(Integer id) {
@@ -32,14 +40,15 @@ public class ProdutoDao {
 		return produto;
 	}
 
+	// Criteria Simplificada https://github.com/uaihebert/uaicriteria
 	public List<Produto> getProdutos(String nome, Integer categoriaId, Integer lojaId) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Produto> query = criteriaBuilder.createQuery(Produto.class);
 		Root<Produto> root = query.from(Produto.class);
 
-		Path<String> nomePath = root.<String> get("nome");
-		Path<Integer> lojaPath = root.<Loja> get("loja").<Integer> get("id");
-		Path<Integer> categoriaPath = root.join("categorias").<Integer> get("id");
+		Path<String> nomePath = root.<String>get("nome");
+		Path<Integer> lojaPath = root.<Loja>get("loja").<Integer>get("id");
+		Path<Integer> categoriaPath = root.join("categorias").<Integer>get("id");
 
 		List<Predicate> predicates = new ArrayList<>();
 

@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+
 @Entity
-public class Loja {
+public @Data class Loja {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,21 +16,4 @@ public class Loja {
 	
 	private String nome;
 	
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-	
-	// SpringMVC usa pra passar o id
-	@Deprecated
-	public void setId(Integer id) {
-		this.id = id;
-	}
 }

@@ -13,19 +13,23 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 @Configuration
 @EnableTransactionManagement
 public class JpaConfigurator {
 
 	@Bean
 	public DataSource getDataSource() {
-	    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
+	    //DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		ComboPooledDataSource dataSource = new ComboPooledDataSource();
+		
 	    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 	    dataSource.setUrl("jdbc:mysql://localhost/projeto_jpa");
 	    dataSource.setUsername("sham");
 	    dataSource.setPassword("gsw");
-
+	    
+	    dataSource.setInitialPoolSize(3);
 	    return dataSource;
 	}
 
