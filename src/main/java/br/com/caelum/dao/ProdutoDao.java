@@ -24,9 +24,32 @@ public class ProdutoDao {
 	private EntityManager em;
 
 	public List<Produto> getProdutos() {
+		
+		/* TESTE POOL
+		try {
+			ComboPooledDataSource dataSource = (ComboPooledDataSource) new JpaConfigurator().getDataSource();
+
+			for (int i = 0; i < 10; i++) {
+				dataSource.getConnection();
+
+				System.out.println(i + " - Conexões existentes: " + dataSource.getNumConnections());
+				System.out.println(i + " - Conexões ocupadas: " + dataSource.getNumBusyConnections());
+				System.out.println(i + " - Conexões ociosas: " + dataSource.getNumIdleConnections());
+
+				System.out.println("");
+				
+			}
+		} catch (Exception e) {
+
+		}
+		*/
+		
+		
 		return em.createQuery("select distinct p from Produto p", Produto.class)
+				.setHint("org.hibernate.cacheable", "true")
 				.setHint("javax.persistence.loadgraph", em.getEntityGraph("produtoComCategoria"))
 				.getResultList();
+	
 	}
 
 	// EAGER GET

@@ -33,7 +33,7 @@ public class ProdutoController {
 		if(result.hasErrors()) {
 			return form(produto);
 		}
-		
+				
 		produtoDao.insere(produto);
 		
 		return "redirect:/";

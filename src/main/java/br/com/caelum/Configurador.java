@@ -2,6 +2,10 @@ package br.com.caelum;
 
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.stat.Statistics;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,6 +34,11 @@ import br.com.caelum.model.Produto;
 @ComponentScan("br.com.caelum")
 @EnableTransactionManagement
 public class Configurador extends WebMvcConfigurerAdapter {
+	
+	@Bean
+	public Statistics statistics(EntityManagerFactory emf) { 
+	    return emf.unwrap(SessionFactory.class).getStatistics();
+	}
 	
 	@Bean
 	@Scope("request")
